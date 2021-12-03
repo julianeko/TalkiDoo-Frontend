@@ -1,0 +1,48 @@
+body {
+  margin: 0%;
+  height: 100vh;
+  width: 100vw;
+}
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 0.5fr 4fr 0.5fr;
+  grid-template-rows: 0.5fr 4fr 0.5fr;
+  gap: 10px;
+
+  background-color: blue;
+  color: white;
+  font-size: 20px;
+  grid-template-areas:
+    "header header header"
+    "sidebar_l main sidebar_r"
+    "sidebar_l footer sidebar_r";
+}
+
+.userleiste {
+  grid-area: sidebar_l;
+  border: 1px solid black;
+}
+.textarea {
+  grid-area: main;
+  border: 1px solid black;
+}
+.werbebanner {
+  grid-area: sidebar_r;
+  border: 1px solid black;
+}
+.header {
+  grid-area: header;
+  border: 1px solid black;
+}
+.footer {
+  grid-area: footer;
+  border: 1px solid black;
+}
+.eingabe {
+  color: white;
+  font-size: 20px;
+  background-color: blue;
+  height: 100vh;
+}
