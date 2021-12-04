@@ -8,7 +8,7 @@ body {
   width: 100vw;
   display: grid;
   grid-template-columns: 0.5fr 4fr 0.5fr;
-  grid-template-rows: 0.5fr 4fr 0.5fr;
+  grid-template-rows: 0.5fr 4fr;
   gap: 10px;
 
   background-color: blue;
@@ -17,7 +17,7 @@ body {
   grid-template-areas:
     "header header header"
     "sidebar_l main sidebar_r"
-    "sidebar_l footer sidebar_r";
+    "sidebar_l main sidebar_r";
 }
 
 .userleiste {
@@ -36,10 +36,10 @@ body {
   grid-area: header;
   border: 1px solid black;
 }
-.footer {
+/* .footer {
   grid-area: footer;
   border: 1px solid black;
-}
+} */
 .eingabe {
   color: white;
   font-size: 20px;
