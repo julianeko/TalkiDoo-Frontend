@@ -1,6 +1,4 @@
 import React from "react";
-
-import Footer from "./Footer";
 import Textarea from "./Textarea";
 import Userleiste from "./Userleiste";
 import Werbebanner from "./Werbebanner";
@@ -12,7 +10,6 @@ function Home() {
       <Userleiste />
       <Werbebanner />
       <Header />
-      <Footer />
       <Textarea />
     </div>
   );
