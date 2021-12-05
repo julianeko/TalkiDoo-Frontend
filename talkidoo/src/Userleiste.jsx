@@ -16,6 +16,16 @@ function Userleiste() {
     // let newstatus = option2.current.value;
     // console.log(newstatus);
   }
+  let nstatus = status;
+  switch (nstatus) {
+    case "offline":
+      console.log("offline");
+      break;
+    case "online":
+      console.log("online");
+    case "hidden":
+      console.log("hidden");
+  }
 
   return (
     <div>
