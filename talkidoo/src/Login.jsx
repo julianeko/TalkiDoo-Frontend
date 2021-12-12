@@ -53,9 +53,9 @@ const RowStyle = styled.div`
 `;
 const ButtonStyle = styled(ImEnter)`
   height: 20px;
-  margin: 10px;
+  margin: 13px;
   &:hover {
-    color: #e8e8e8;
+    color: #62d1c9;
   }
 `;
 const H1Style = styled.h1`

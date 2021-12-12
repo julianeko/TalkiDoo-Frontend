@@ -48,8 +48,6 @@ function Textarea() {
     </OuterBubble>
   ));
 
-
-
   return (
     <div className="textarea">
       <div className="scroll">{thisEntry}</div>
@@ -71,7 +69,7 @@ function Textarea() {
 
 export default Textarea;
 const TextBubble = styled.div`
-  background-color: white;
+  background-color: #f2e8cb;
   padding: 10px;
   border-radius: 6px;
   position: relative;
@@ -106,7 +104,7 @@ const TextBubble = styled.div`
     position: absolute;
     pointer-events: none;
     border-color: rgba(255, 255, 204, 0);
-    border-right-color: white;
+    border-right-color: #f2e8cb;
     border-width: 15px;
     margin-top: -15px;
   }
@@ -126,4 +124,7 @@ const OuterBubble = styled.div``;
 
 const SendStyle = styled(BiSend)`
   margin: 15px;
+  &:hover {
+    color: #62d1c9;
+  }
 `;

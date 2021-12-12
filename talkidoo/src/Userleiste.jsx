@@ -14,6 +14,11 @@ function Userleiste() {
   const [status, setStatus] = useState();
   const navigate = useNavigate();
 
+  if (user === undefined) {
+    setTimeout(() => navigate("/"), 0);
+    return <div>Bitte anmelden</div>;
+  }
+
   function changeStatus(event) {
     setStatus(event.target.value);
     console.log(event.target.value);
@@ -52,9 +57,7 @@ function Userleiste() {
       );
       break;
   }
-  if (user === undefined) {
-    navigate("/");
-  }
+
   return (
     <div>
       <div className="userleiste">
@@ -66,13 +69,13 @@ function Userleiste() {
           id="selectList"
           className="selectlist"
         >
-          <option ref={option1} value="offline">
+          <option className="optioncolor" ref={option1} value="offline">
             offline
           </option>
-          <option ref={option2} value="online">
+          <option className="optioncolor" ref={option2} value="online">
             online
           </option>
-          <option ref={option3} value="hidden">
+          <option className="optioncolor" ref={option3} value="hidden">
             hidden
           </option>
         </SelectStyle>
@@ -84,7 +87,7 @@ function Userleiste() {
 export default Userleiste;
 
 const IconStyle = styled.span`
-  color: ${(props) => (props.true ? "green" : "red")};
+  color: ${(props) => (props.true ? "#2aa198" : "#ff1493")};
 `;
 const SelectStyle = styled.select`
   /* margin-left: 10px; */
@@ -92,5 +95,6 @@ const SelectStyle = styled.select`
   border: none;
   font-size: 10px;
   display: block;
+  color: #2aa198;
 `;
 const DotStyle = styled(BiDotsVerticalRounded)``;

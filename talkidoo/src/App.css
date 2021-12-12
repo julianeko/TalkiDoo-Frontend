@@ -10,8 +10,8 @@ body {
   grid-template-columns: 0.5fr 4fr 0.5fr;
   grid-template-rows: 0.5fr 4fr;
   gap: 10px;
-  background-color: blue;
-  color: black;
+  background-color: #fdf5df;
+  color: #2aa198;
   font-size: 16px;
   grid-template-areas:
     "header header header"
@@ -50,9 +50,9 @@ body {
   border: 1px solid black;
 } */
 .eingabe {
-  color: white;
   font-size: 20px;
-  background-color: blue;
+  background-color: #fdf5df;
+  color: #2aa198;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -72,4 +72,7 @@ body {
 }
 .scroll {
   overflow-y: auto;
+}
+.optioncolor {
+  color: #2aa198;
 }
