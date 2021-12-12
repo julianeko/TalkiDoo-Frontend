@@ -10,10 +10,9 @@ body {
   grid-template-columns: 0.5fr 4fr 0.5fr;
   grid-template-rows: 0.5fr 4fr;
   gap: 10px;
-
   background-color: blue;
-  color: white;
-  font-size: 20px;
+  color: black;
+  font-size: 16px;
   grid-template-areas:
     "header header header"
     "sidebar_l main sidebar_r"
@@ -22,11 +21,17 @@ body {
 
 .userleiste {
   grid-area: sidebar_l;
-  border: 1px solid black;
+  /* border: 1px solid black; */
+  font-size: 13px;
+  margin-left: 5px;
 }
 .textarea {
   grid-area: main;
-  border: 1px solid black;
+  /* border: 1px solid black; */
+  align-content: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 .werbebanner {
   grid-area: sidebar_r;
@@ -34,7 +39,11 @@ body {
 }
 .header {
   grid-area: header;
-  border: 1px solid black;
+  /* border: 1px solid black; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
 }
 /* .footer {
   grid-area: footer;
@@ -45,4 +54,22 @@ body {
   font-size: 20px;
   background-color: blue;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.reihe {
+  display: flex;
+  flex-direction: row;
+}
+.timestyle {
+  font-size: 10px;
+  color: #ff1493;
+  display: flex;
+  justify-content: end;
+}
+.scroll {
+  overflow-y: auto;
 }
