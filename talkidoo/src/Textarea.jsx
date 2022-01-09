@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { Context } from "./Home";
@@ -9,23 +9,24 @@ import { BiSend } from "react-icons/bi";
 
 function Textarea() {
   const { user } = useContext(Context);
-  const [entry, setEntry] = useState([]);
+  const [entry, setEntry] = useState("");
   const navigate = useNavigate();
-  const eingabeFeld = useRef();
+  const [posts, setPosts] = useState([]);
 
-  function newEntry() {
-    setEntry([
-      ...entry,
-      {
-        id: uuidv4(),
-        name: user.name,
-        date: new Date(),
-        text: eingabeFeld.current.value,
-      },
-    ]);
-    eingabeFeld.current.value = "";
-    console.log("Klickmich");
+  async function newEntry() {
+    // Abfrage der API (HTTP)
+    const owmURL = "http://127.0.0.1:8000/new/Author?text=" + entry;
+    const result = await fetch(owmURL);
+    // Parsen der JSON Informationen (Erzeugt ein Promise Objekt)
+    // const localdata = await result.json();
+    console.log(result);
+    setEntry("");
   }
+
+  function onChangeEntry(event) {
+    setEntry(event.target.value);
+  }
+
   function keyPressText(event) {
     if (event.key === "Enter") {
       newEntry();
@@ -34,31 +35,47 @@ function Textarea() {
     }
   }
 
-  let thisEntry = entry.map((element) => (
+  useEffect(() => {
+    async function getPosts() {
+      // Abfrage der API (HTTP)
+      const owmURL = "http://127.0.0.1:8000/api";
+      const result = await fetch(owmURL);
+      // Parsen der JSON Informationen (Erzeugt ein Promise Objekt)
+      const data = await result.json();
+      console.log(data);
+      setPosts(data);
+    }
+    getPosts();
+  }, []);
+  console.log(posts);
+
+  let backendposts = posts.map((element) => (
     <OuterBubble>
       <TextBubble key={element.id}>
-        <UserNameStyle>{element.name}:</UserNameStyle>
+        <UserNameStyle>{element.author}:</UserNameStyle>
         <div>{element.text}</div>
         <ReactTimeAgo
-          date={element.date}
+          date={element.created_at}
           timeStyle="round-minute"
           className="timestyle"
         />
       </TextBubble>
     </OuterBubble>
   ));
+  console.log(backendposts);
 
   return (
     <div className="textarea">
-      <div className="scroll">{thisEntry}</div>
+      <div className="scroll">{backendposts}</div>
       <InputStyle>
-        <textarea
+        <TextareaStyle
           maxlength="150"
           type="text"
           placeholder="Enter Text"
-          ref={eingabeFeld}
+          value={entry}
           onKeyPress={keyPressText}
-        ></textarea>
+          onChange={onChangeEntry}
+        ></TextareaStyle>
         <div>
           <SendStyle height="20px" onClick={newEntry}></SendStyle>
         </div>
@@ -126,5 +143,16 @@ const SendStyle = styled(BiSend)`
   margin: 15px;
   &:hover {
     color: #62d1c9;
+  }
+`;
+const TextareaStyle = styled.textarea`
+  border: 2px solid #2aa198;
+  outline: none;
+  border-radius: 4px;
+  &:hover {
+    border: 2px solid #62d1c9;
+  }
+  &:active {
+    border: 2px solid #62d1c9;
   }
 `;

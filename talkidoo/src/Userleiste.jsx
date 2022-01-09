@@ -7,7 +7,7 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 function Userleiste() {
-  const { user } = useContext(Context);
+  var { user } = useContext(Context);
   const option1 = useRef();
   const option2 = useRef();
   const option3 = useRef();
@@ -15,8 +15,9 @@ function Userleiste() {
   const navigate = useNavigate();
 
   if (user === undefined) {
-    setTimeout(() => navigate("/"), 0);
-    return <div>Bitte anmelden</div>;
+    //  setTimeout(() => navigate("/"), 0);
+    // //   return <div>Bitte anmelden</div>;
+    user = "Testuser";
   }
 
   function changeStatus(event) {
