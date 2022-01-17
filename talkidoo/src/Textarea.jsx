@@ -5,22 +5,37 @@ import { Context } from "./Home";
 import styled from "styled-components";
 import "./App.css";
 import ReactTimeAgo from "react-time-ago";
-import { BiSend } from "react-icons/bi";
+import { BiSend, BiHappyHeartEyes } from "react-icons/bi";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 function Textarea() {
   const { user } = useContext(Context);
   const [entry, setEntry] = useState("");
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
+  const [likes, setLikes] = useState({});
 
+  console.log(likes);
   async function newEntry() {
     // Abfrage der API (HTTP)
-    const owmURL = "http://127.0.0.1:8000/new/Author?text=" + entry;
-    const result = await fetch(owmURL);
+    const owmURL = "http://127.0.0.1:8000/api";
+    const result = await fetch(owmURL, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        author: user.name,
+        text: entry,
+      }),
+      // Parsen der JSON Informationen (Erzeugt ein Promise Objekt)
+    });
     // Parsen der JSON Informationen (Erzeugt ein Promise Objekt)
     // const localdata = await result.json();
     console.log(result);
     setEntry("");
+    getPosts();
   }
 
   function onChangeEntry(event) {
@@ -34,20 +49,29 @@ function Textarea() {
       console.log("KeyPress");
     }
   }
-
+  async function getPosts() {
+    // Abfrage der API (HTTP)
+    const owmURL = "http://127.0.0.1:8000/api";
+    const result = await fetch(owmURL);
+    const data = await result.json();
+    console.log(data);
+    setPosts(data);
+  }
   useEffect(() => {
-    async function getPosts() {
-      // Abfrage der API (HTTP)
-      const owmURL = "http://127.0.0.1:8000/api";
-      const result = await fetch(owmURL);
-      // Parsen der JSON Informationen (Erzeugt ein Promise Objekt)
-      const data = await result.json();
-      console.log(data);
-      setPosts(data);
-    }
     getPosts();
   }, []);
   console.log(posts);
+
+  posts.sort(function (a, b) {
+    return new Date(b.created_at) - new Date(a.created_at);
+  });
+
+  let iconheart = <AiOutlineHeart />;
+  // if (likes > 0) {
+  //   iconheart = <AiFillHeart />;
+  // } else {
+  //   iconheart = <AiOutlineHeart />;
+  // }
 
   let backendposts = posts.map((element) => (
     <OuterBubble>
@@ -59,10 +83,28 @@ function Textarea() {
           timeStyle="round-minute"
           className="timestyle"
         />
+        <div onClick={() => likeMe(element.id)}>
+          {likes[element.id] > 0 ? (
+            (iconheart = <AiFillHeart />)
+          ) : (
+            <AiOutlineHeart />
+          )}
+          {likes[element.id]}
+        </div>
       </TextBubble>
     </OuterBubble>
   ));
   console.log(backendposts);
+
+  function likeMe(postid) {
+    if (likes[postid] === undefined) {
+      likes[postid] = 1;
+    } else {
+      likes[postid] += 1;
+    }
+    setLikes({ ...likes });
+  }
+  console.log(likes);
 
   return (
     <div className="textarea">
@@ -71,7 +113,7 @@ function Textarea() {
         <TextareaStyle
           maxlength="150"
           type="text"
-          placeholder="Enter Text"
+          placeholder={user.name + " please enter Text"}
           value={entry}
           onKeyPress={keyPressText}
           onChange={onChangeEntry}
@@ -85,6 +127,7 @@ function Textarea() {
 }
 
 export default Textarea;
+// const HeartIcon = styled(AiOutlineHeart)``;
 const TextBubble = styled.div`
   background-color: #f2e8cb;
   padding: 10px;

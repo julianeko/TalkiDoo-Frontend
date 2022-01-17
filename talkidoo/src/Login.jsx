@@ -10,12 +10,18 @@ function Login({ user, setUser }) {
   const navigate = useNavigate();
 
   function newUser() {
-    let userLogin = { id: uuidv4(), name: eingabeFeld2.current.value };
-    eingabeFeld2.current.value = "";
-    setUser(userLogin);
-    console.log("klick");
-    navigate("/home/");
+    if (eingabeFeld2.current.value === "") {
+      navigate("/");
+    } else {
+      let userLogin = { id: uuidv4(), name: eingabeFeld2.current.value };
+      eingabeFeld2.current.value = "";
+      setUser(userLogin);
+      console.log("klick");
+      navigate("/home/");
+    }
   }
+
+  console.log(user);
 
   function keyPressEntry(event) {
     if (event.key === "Enter") {

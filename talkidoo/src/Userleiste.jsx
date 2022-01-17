@@ -3,7 +3,7 @@ import "./App.css";
 import { FaCircle, FaRegCircle } from "react-icons/fa";
 import { Context } from "./Home";
 import styled from "styled-components";
-import { BiDotsVerticalRounded } from "react-icons/bi";
+import { BiDotsVerticalRounded, BiLogOut } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 function Userleiste() {
@@ -15,9 +15,8 @@ function Userleiste() {
   const navigate = useNavigate();
 
   if (user === undefined) {
-    //  setTimeout(() => navigate("/"), 0);
-    // //   return <div>Bitte anmelden</div>;
-    user = "Testuser";
+    setTimeout(() => navigate("/"), 0);
+    return <div>Bitte anmelden</div>;
   }
 
   function changeStatus(event) {
@@ -58,7 +57,9 @@ function Userleiste() {
       );
       break;
   }
-
+  function logOut() {
+    navigate("/");
+  }
   return (
     <div>
       <div className="userleiste">
@@ -81,12 +82,19 @@ function Userleiste() {
           </option>
         </SelectStyle>
       </div>
+      <LogOutStyle onClick={logOut} />
     </div>
   );
 }
 
 export default Userleiste;
-
+const LogOutStyle = styled(BiLogOut)`
+  margin-left: 10px;
+  font-size: 20px;
+  &:hover {
+    color: #62d1c9;
+  }
+`;
 const IconStyle = styled.span`
   color: ${(props) => (props.true ? "#2aa198" : "#ff1493")};
 `;
