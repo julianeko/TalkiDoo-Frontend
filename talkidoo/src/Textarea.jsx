@@ -1,18 +1,17 @@
-import React, { useState, useRef, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "./Home";
 import styled from "styled-components";
 import "./App.css";
 import ReactTimeAgo from "react-time-ago";
-import { BiSend, BiHappyHeartEyes } from "react-icons/bi";
+import { BiSend } from "react-icons/bi";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import usePosts from "./usePosts";
 
 function Textarea() {
-  const { user } = useContext(Context);
+  const { user, token } = useContext(Context);
+  const { posts, getPosts, setPosts } = usePosts();
   const [entry, setEntry] = useState("");
-  const navigate = useNavigate();
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState([]);
   const [likes, setLikes] = useState({});
 
   console.log(likes);
@@ -24,9 +23,10 @@ function Textarea() {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: "Bearer " + token.access,
       },
       body: JSON.stringify({
-        author: user.name,
+        author: user.username,
         text: entry,
       }),
       // Parsen der JSON Informationen (Erzeugt ein Promise Objekt)
@@ -35,8 +35,11 @@ function Textarea() {
     // const localdata = await result.json();
     console.log(result);
     setEntry("");
-    getPosts();
+    const data = await result.json();
+    setPosts(data);
+    // getPosts();
   }
+  console.log(token.access);
 
   function onChangeEntry(event) {
     setEntry(event.target.value);
@@ -49,17 +52,25 @@ function Textarea() {
       console.log("KeyPress");
     }
   }
-  async function getPosts() {
-    // Abfrage der API (HTTP)
-    const owmURL = "http://127.0.0.1:8000/api";
-    const result = await fetch(owmURL);
-    const data = await result.json();
-    console.log(data);
-    setPosts(data);
-  }
+  // async function getPosts() {
+  //   // Abfrage der API (HTTP)
+  //   const owmURL = "http://127.0.0.1:8000/api";
+  //   const result = await fetch(owmURL, {
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + token.access,
+  //     },
+  //   });
+
+  //   const data = await result.json();
+  //   console.log(data);
+  //   setPosts(data);
+  // }
+
   useEffect(() => {
-    getPosts();
-  }, []);
+    getPosts(token);
+  }, [token]);
   console.log(posts);
 
   posts.sort(function (a, b) {
@@ -67,19 +78,19 @@ function Textarea() {
   });
 
   let iconheart = <AiOutlineHeart />;
-  // if (likes > 0) {
-  //   iconheart = <AiFillHeart />;
-  // } else {
-  //   iconheart = <AiOutlineHeart />;
-  // }
+  if (likes > 0) {
+    iconheart = <AiFillHeart />;
+  } else {
+    iconheart = <AiOutlineHeart />;
+  }
 
   let backendposts = posts.map((element) => (
-    <OuterBubble>
+    <OuterBubble key={element.id}>
       <TextBubble key={element.id}>
-        <UserNameStyle>{element.author}:</UserNameStyle>
+        <UserNameStyle key={element.id}>{element.author}:</UserNameStyle>
         <div>{element.text}</div>
         <ReactTimeAgo
-          date={element.created_at}
+          date={Date.parse(element.created_at)}
           timeStyle="round-minute"
           className="timestyle"
         />
@@ -107,13 +118,15 @@ function Textarea() {
   console.log(likes);
 
   return (
-    <div className="textarea">
-      <div className="scroll">{backendposts}</div>
+    <div className="textarea" key={user.id}>
+      <div className="scroll" key={user.id}>
+        {backendposts}
+      </div>
       <InputStyle>
         <TextareaStyle
           maxlength="150"
           type="text"
-          placeholder={user.name + " please enter Text"}
+          placeholder={user.username + " please enter Text"}
           value={entry}
           onKeyPress={keyPressText}
           onChange={onChangeEntry}

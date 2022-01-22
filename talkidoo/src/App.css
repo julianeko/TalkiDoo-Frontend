@@ -85,7 +85,7 @@ body {
   font-size: 10px;
   color: #ff1493;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 .scroll {
   overflow-y: auto;

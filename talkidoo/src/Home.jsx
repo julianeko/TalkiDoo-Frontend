@@ -5,10 +5,10 @@ import Werbebanner from "./Werbebanner";
 import Header from "./Header";
 export const Context = createContext();
 
-function Home({ user, setUser }) {
+function Home({ user, setUser, token, setToken }) {
   return (
     <div className="container">
-      <Context.Provider value={{ user, setUser }}>
+      <Context.Provider value={{ user, setUser, token, setToken }}>
         <Userleiste />
         <Werbebanner />
         <Header />

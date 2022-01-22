@@ -5,11 +5,3 @@ function Werbebanner() {
 }
 
 export default Werbebanner;
-
-function Adlement() {
-  return (
-    <div class="AdElement">
-      <adElement></adElement>
-    </div>
-  );
-}

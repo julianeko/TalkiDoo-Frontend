@@ -3,11 +3,11 @@ import "./App.css";
 import { FaCircle, FaRegCircle } from "react-icons/fa";
 import { Context } from "./Home";
 import styled from "styled-components";
-import { BiDotsVerticalRounded, BiLogOut } from "react-icons/bi";
+import { BiLogOut } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 function Userleiste() {
-  var { user } = useContext(Context);
+  var { user, setToken } = useContext(Context);
   const option1 = useRef();
   const option2 = useRef();
   const option3 = useRef();
@@ -22,8 +22,6 @@ function Userleiste() {
   function changeStatus(event) {
     setStatus(event.target.value);
     console.log(event.target.value);
-    // let newstatus = option2.current.value;
-    // console.log(newstatus);
   }
   let nstatus = status;
   let icon = (
@@ -58,12 +56,13 @@ function Userleiste() {
       break;
   }
   function logOut() {
+    setToken(undefined);
     navigate("/");
   }
   return (
     <div>
       <div className="userleiste">
-        {user.name} {icon}
+        {user.username} {icon}
         <SelectStyle
           onChange={changeStatus}
           value={status}
@@ -106,4 +105,3 @@ const SelectStyle = styled.select`
   display: block;
   color: #2aa198;
 `;
-const DotStyle = styled(BiDotsVerticalRounded)``;
