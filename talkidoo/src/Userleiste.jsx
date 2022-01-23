@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import "./App.css";
 import { FaCircle, FaRegCircle } from "react-icons/fa";
-import { Context } from "./Home";
+import { Context } from "./App";
 import styled from "styled-components";
 import { BiLogOut } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Context } from "./Home";
+import { Context } from "./App";
 import styled from "styled-components";
 import "./App.css";
 import ReactTimeAgo from "react-time-ago";
