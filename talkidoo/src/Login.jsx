@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+
 import "./App.css";
 import styled from "styled-components";
 import { Context } from "./App";
@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from "uuid";
 import { ImEnter } from "react-icons/im";
 
 function Login() {
-  const navigate = useNavigate();
   const { user, setUser, token, setToken } = useContext(Context);
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -46,7 +45,6 @@ function Login() {
       const data = await result.json();
       setToken(data);
       setUser(userLogin);
-      navigate("/home/");
     }
   }
   console.log(token);

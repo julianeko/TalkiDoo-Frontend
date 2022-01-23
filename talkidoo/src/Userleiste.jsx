@@ -4,20 +4,13 @@ import { FaCircle, FaRegCircle } from "react-icons/fa";
 import { Context } from "./App";
 import styled from "styled-components";
 import { BiLogOut } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
 
 function Userleiste() {
-  var { user, setToken } = useContext(Context);
+  var { user, setToken, setUser } = useContext(Context);
   const option1 = useRef();
   const option2 = useRef();
   const option3 = useRef();
   const [status, setStatus] = useState();
-  const navigate = useNavigate();
-
-  if (user === undefined) {
-    setTimeout(() => navigate("/"), 0);
-    return <div>Bitte anmelden</div>;
-  }
 
   function changeStatus(event) {
     setStatus(event.target.value);
@@ -55,10 +48,12 @@ function Userleiste() {
       );
       break;
   }
+
   function logOut() {
     setToken(undefined);
-    navigate("/");
+    setUser(undefined);
   }
+
   return (
     <div>
       <div className="userleiste">

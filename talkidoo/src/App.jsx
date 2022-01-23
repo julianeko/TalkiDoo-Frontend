@@ -11,12 +11,7 @@ function App() {
   return (
     <div>
       <Context.Provider value={{ user, setUser, token, setToken }}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/home/" element={<Home />} />
-          </Routes>
-        </BrowserRouter>
+        {user ? <Home /> : <Login />}
       </Context.Provider>
     </div>
   );
