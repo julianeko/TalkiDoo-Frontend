@@ -2,6 +2,7 @@ import { useState } from "react";
 
 function usePosts() {
   const [posts, setPosts] = useState([]);
+  // const [newlikes, setNewlikes] = useState([]);
 
   //useEffect(() => {
   async function getPosts(token) {
@@ -16,11 +17,13 @@ function usePosts() {
     });
     // Parsen der JSON Informationen (Erzeugt ein Promise Objekt)
     const data = await result.json();
-    //console.log(data)
+    console.log(data);
     setPosts(data);
   }
   //    setInterval(getPosts, 20000);
   //}, [])
+
+  
 
   return {
     posts,

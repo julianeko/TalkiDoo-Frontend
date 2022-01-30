@@ -12,9 +12,9 @@ function Textarea() {
   const { posts, getPosts, setPosts } = usePosts();
   const [entry, setEntry] = useState("");
   // const [posts, setPosts] = useState([]);
-  const [likes, setLikes] = useState({});
+  const [likes, setLikes] = useState("");
 
-  console.log(likes);
+  console.log(user.username);
   async function newEntry() {
     // Abfrage der API (HTTP)
     const owmURL = "http://127.0.0.1:8000/api";
@@ -26,7 +26,6 @@ function Textarea() {
         Authorization: "Bearer " + token.access,
       },
       body: JSON.stringify({
-        author: user.username,
         text: entry,
       }),
       // Parsen der JSON Informationen (Erzeugt ein Promise Objekt)
@@ -52,42 +51,46 @@ function Textarea() {
       console.log("KeyPress");
     }
   }
-  // async function getPosts() {
-  //   // Abfrage der API (HTTP)
-  //   const owmURL = "http://127.0.0.1:8000/api";
-  //   const result = await fetch(owmURL, {
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + token.access,
-  //     },
-  //   });
-
-  //   const data = await result.json();
-  //   console.log(data);
-  //   setPosts(data);
-  // }
 
   useEffect(() => {
     getPosts(token);
   }, [token]);
-  console.log(posts);
 
   posts.sort(function (a, b) {
     return new Date(b.created_at) - new Date(a.created_at);
   });
 
-  let iconheart = <AiOutlineHeart />;
-  if (likes > 0) {
-    iconheart = <AiFillHeart />;
-  } else {
-    iconheart = <AiOutlineHeart />;
+  // if (likes > 0) {
+  //   iconheart = <AiFillHeart />;
+  // } else if ((likes += 1)) {
+  //   iconheart = <AiOutlineHeart />;
+  // }
+  console.log(likes.user);
+  async function likeMe(postid) {
+    const owmURL = "http://127.0.0.1:8000/likes";
+    const result2 = await fetch(owmURL, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token.access,
+      },
+      body: JSON.stringify({ post: postid }),
+
+      // Parsen der JSON Informationen (Erzeugt ein Promise Objekt)
+    });
+
+    const data2 = await result2.json();
+    setLikes(data2);
+    console.log(data2);
+    // Parsen der JSON Informationen (Erzeugt ein Promise Objekt)
+    // const localdata = await result.json();
   }
 
   let backendposts = posts.map((element) => (
     <OuterBubble key={element.id}>
       <TextBubble key={element.id}>
-        <UserNameStyle key={element.id}>{element.author}:</UserNameStyle>
+        <UserNameStyle key={element.id}>{element.user.username}:</UserNameStyle>
         <div>{element.text}</div>
         <ReactTimeAgo
           date={Date.parse(element.created_at)}
@@ -95,27 +98,37 @@ function Textarea() {
           className="timestyle"
         />
         <div onClick={() => likeMe(element.id)}>
+          {element.likes.includes(user.username) ? (
+            <AiFillHeart />
+          ) : (
+            <AiOutlineHeart />
+          )}
+          {element.likes.length}
+          {element.likes.map((like) => like)}
+        </div>
+
+        {/* <div onClick={() => likeMe(element.id)}>
           {likes[element.id] > 0 ? (
             (iconheart = <AiFillHeart />)
           ) : (
             <AiOutlineHeart />
           )}
           {likes[element.id]}
-        </div>
+        </div> */}
       </TextBubble>
     </OuterBubble>
   ));
   console.log(backendposts);
 
-  function likeMe(postid) {
-    if (likes[postid] === undefined) {
-      likes[postid] = 1;
-    } else {
-      likes[postid] += 1;
-    }
-    setLikes({ ...likes });
-  }
-  console.log(likes);
+  // function likeMe(postid) {
+  //   if (likes[postid] === undefined) {
+  //     likes[postid] = 1;
+  //   } else {
+  //     likes[postid] += 1;
+  //   }
+  //   setLikes({ ...likes });
+  // }
+  // console.log(likes);
 
   return (
     <div className="textarea" key={user.id}>

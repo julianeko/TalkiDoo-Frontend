@@ -34,13 +34,12 @@ function Login() {
     console.log(result.status);
 
     if (username === "" || password === "" || result.status === 401) {
-      // navigate("/");
       setValid(false);
     } else {
       let userLogin = {
         id: uuidv4(),
         username: username,
-        password: password,
+        // password: password,
       };
       const data = await result.json();
       setToken(data);
