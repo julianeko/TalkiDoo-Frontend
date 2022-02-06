@@ -6,6 +6,7 @@ import ReactTimeAgo from "react-time-ago";
 import { BiSend } from "react-icons/bi";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import usePosts from "./usePosts";
+import moment from "moment";
 
 function Textarea() {
   const { user, token } = useContext(Context);
@@ -52,9 +53,9 @@ function Textarea() {
     }
   }
 
-  useEffect(() => {
-    getPosts(token);
-  }, [token]);
+  // useEffect(() => {
+  //   getPosts(token);
+  // }, [token]);
 
   posts.sort(function (a, b) {
     return new Date(b.created_at) - new Date(a.created_at);
@@ -68,7 +69,7 @@ function Textarea() {
   console.log(likes.user);
   async function likeMe(postid) {
     const owmURL = "http://127.0.0.1:8000/likes";
-    const result2 = await fetch(owmURL, {
+    const result = await fetch(owmURL, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -80,12 +81,16 @@ function Textarea() {
       // Parsen der JSON Informationen (Erzeugt ein Promise Objekt)
     });
 
-    const data2 = await result2.json();
-    setLikes(data2);
-    console.log(data2);
+    // const data = await result.json();
+
+    // setLikes(data);
+    getPosts(token);
     // Parsen der JSON Informationen (Erzeugt ein Promise Objekt)
     // const localdata = await result.json();
   }
+  useEffect(() => {
+    getPosts(token);
+  }, [token]);
 
   let backendposts = posts.map((element) => (
     <OuterBubble key={element.id}>
@@ -97,14 +102,18 @@ function Textarea() {
           timeStyle="round-minute"
           className="timestyle"
         />
-        <div onClick={() => likeMe(element.id)}>
+        <div>{moment(element.created_at).fromNow()}</div>
+
+        <div className="namecontainer" onClick={() => likeMe(element.id)}>
           {element.likes.includes(user.username) ? (
             <AiFillHeart />
           ) : (
             <AiOutlineHeart />
           )}
-          {element.likes.length}
-          {element.likes.map((like) => like)}
+          <span className="likename">
+            {element.likes}
+            {/* {element.likes.map((like) => like)} */}
+          </span>
         </div>
 
         {/* <div onClick={() => likeMe(element.id)}>
@@ -153,6 +162,7 @@ function Textarea() {
 }
 
 export default Textarea;
+
 // const HeartIcon = styled(AiOutlineHeart)``;
 const TextBubble = styled.div`
   background-color: #f2e8cb;

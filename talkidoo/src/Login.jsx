@@ -68,14 +68,14 @@ function Login() {
           placeholder="Enter name"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          onKeyPress={keyPressEntry}
+          // onKeyPress={keyPressEntry}
         ></InputStyle>
         <InputStyle
           type="password"
           placeholder="Enter passwort"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          // onKeyPress={keyPressEntry}
+          onKeyPress={keyPressEntry}
         ></InputStyle>
         <div>
           <ButtonStyle onClick={newUser}> Enter</ButtonStyle>

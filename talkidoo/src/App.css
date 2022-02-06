@@ -93,3 +93,23 @@ body {
 .optioncolor {
   color: #2aa198;
 }
+.namecontainer {
+  position: relative;
+  display: inline-block;
+}
+.likename {
+  font-size: 10px;
+  visibility: hidden;
+  width: 120px;
+  /* background-color: #fdf5df; */
+  color: #2aa198;
+  text-align: left;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+}
+.namecontainer:hover .likename {
+  visibility: visible;
+  /* z-index: 2; */
+}
