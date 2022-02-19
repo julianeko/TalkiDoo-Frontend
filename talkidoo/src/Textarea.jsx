@@ -7,6 +7,7 @@ import { BiSend } from "react-icons/bi";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import usePosts from "./usePosts";
 import moment from "moment";
+import "moment/locale/de";
 
 function Textarea() {
   const { user, token } = useContext(Context);
@@ -91,18 +92,102 @@ function Textarea() {
   useEffect(() => {
     getPosts(token);
   }, [token]);
+  console.log(posts);
+
+  // let newlikes = posts.map((element) => {
+  //   if (element.likes.includes(user.username) && element.likes.length === 1) {
+  //     return (
+  //       "Gefaellt " +
+  //       "Dir " +
+  //       "und " +
+  //       (element.likes.length - 1) +
+  //       " weiteren" +
+  //       " Person"
+  //     );
+  //   } else if (
+  //     element.likes.includes(user.username) &&
+  //     element.likes.length > 1
+  //   ) {
+  //     return (
+  //       "Gefaellt " +
+  //       "Dir " +
+  //       "und " +
+  //       (element.likes.length - 1) +
+  //       " weiteren" +
+  //       " Personen"
+  //     );
+  //   } else {
+  //     return "Gefaellt " + element.likes.length + " Personen";
+  //   }
+  // });
+  // console.log(newlikes);
+
+  function like(element) {
+    {
+      if (element.likes.includes(user.username) && element.likes.length === 1) {
+        return (
+          "Gefaellt " +
+          "Dir " +
+          "und " +
+          (element.likes.length - 1) +
+          " weiteren" +
+          " Personen"
+        );
+      } else if (
+        element.likes.includes(user.username) &&
+        element.likes.length > 2
+      ) {
+        return (
+          "Gefaellt " +
+          "Dir " +
+          "und " +
+          (element.likes.length - 1) +
+          " weiteren" +
+          " Personen"
+        );
+      } else if (
+        element.likes.length === 2 &&
+        element.likes.includes(user.username)
+      ) {
+        return (
+          "Gefaellt " +
+          "Dir " +
+          "und " +
+          (element.likes.length - 1) +
+          " weiteren" +
+          " Person"
+        );
+      } else if (
+        !element.likes.includes(user.username) &&
+        element.likes.length === 1
+      ) {
+        return "Gefaellt " + element.likes.length + " Person";
+      } else {
+        return "Gefaellt " + element.likes.length + " Personen";
+      }
+    }
+  }
+
+  // let like = newlikes.filter((element) => (
+  //   <span>
+  //     {element.likes === element.id ? element : console.log("please")}
+  //   </span>
+  // ));
+  // console.log(like);
 
   let backendposts = posts.map((element) => (
     <OuterBubble key={element.id}>
       <TextBubble key={element.id}>
         <UserNameStyle key={element.id}>{element.user.username}:</UserNameStyle>
         <div>{element.text}</div>
-        <ReactTimeAgo
+        {/* <ReactTimeAgo
           date={Date.parse(element.created_at)}
           timeStyle="round-minute"
           className="timestyle"
-        />
-        <div>{moment(element.created_at).fromNow()}</div>
+        /> */}
+        <div className="timestyle">
+          {moment(element.created_at).locale("de").fromNow()}
+        </div>
 
         <div className="namecontainer" onClick={() => likeMe(element.id)}>
           {element.likes.includes(user.username) ? (
@@ -114,6 +199,17 @@ function Textarea() {
             {element.likes}
             {/* {element.likes.map((like) => like)} */}
           </span>
+          <GefaelltStyle>
+            {like(element)}
+            {/* {element.likes.includes(user.username)
+              ? "Gefaellt " +
+                "Dir " +
+                "und " +
+                (element.likes.length - 1) +
+                " weiteren" +
+                " Personen"
+              : "Gefaellt " + element.likes.length + " Personen"} */}
+          </GefaelltStyle>
         </div>
 
         {/* <div onClick={() => likeMe(element.id)}>
@@ -162,7 +258,11 @@ function Textarea() {
 }
 
 export default Textarea;
-
+const GefaelltStyle = styled.span`
+  font-size: 8px;
+  display: flex;
+  justify-content: flex-end;
+`;
 // const HeartIcon = styled(AiOutlineHeart)``;
 const TextBubble = styled.div`
   background-color: #f2e8cb;
